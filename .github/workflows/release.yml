@@ -1,0 +1,28 @@
+# SPDX-FileCopyrightText: 2022 nerdyscout <https://github.com/nerdyscout/>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*.*.*"
+      - "v*.*"
+      
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build PCBs
+        uses: benc-uk/workflow-dispatch@v1
+        with:
+          workflow: "Build PCBs"
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Release
+        uses: softprops/action-gh-release@v2
+        if: startsWith(github.ref, 'refs/tags/')

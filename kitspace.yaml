@@ -1,0 +1,11 @@
+multi: 
+  VARIANT1:
+    site: https://xboxoneresearch.github.io/Spider-eMMC
+    summary: 
+    readme: README.md
+    bom: pcb/docs/bom/*.csv
+    eda:
+      type: kicad
+      pcb: pcb/*.kicad_pcb
+    gerbers: gerbers
+    color: green

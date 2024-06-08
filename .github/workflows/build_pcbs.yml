@@ -1,0 +1,41 @@
+# SPDX-FileCopyrightText: 2022 nerdyscout <https://github.com/nerdyscout/>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+name: Build PCBs
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+    - "**/*.kicad_sch"
+    - "**/*.kicad_pcb"
+    - "**/*.kicad_pro"
+    - "**/*kibot.yml"
+  pull_request:
+    paths:
+    - "**/*.kicad_sch"
+    - "**/*.kicad_pcb"
+    - "**/*.kicad_pro"
+    - "**/*kibot.yml"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: KiBot (Carrier)
+        uses: benc-uk/workflow-dispatch@v1
+        with:
+          workflow: KiBot
+          inputs: '{ "board": "Carrier" }'
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: KiBot (UnifiedBoard)
+        uses: benc-uk/workflow-dispatch@v1
+        with:
+          workflow: KiBot
+          inputs: '{ "board": "UnifiedBoard" }'
+          token: ${{ secrets.GITHUB_TOKEN }}
